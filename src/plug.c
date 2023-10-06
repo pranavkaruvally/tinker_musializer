@@ -354,21 +354,22 @@ void timeline(Rectangle timeline_boundary, Track *track)
 {
     float played = GetMusicTimePlayed(track->music);
     float len = GetMusicTimeLength(track->music);
-    float x = played/len*GetRenderWidth();
+    float y = played/len*timeline_boundary.height;
     Vector2 startPos = {
-        .x = x,
-        .y = timeline_boundary.y
+        .x = timeline_boundary.x,
+        .y = timeline_boundary.y + timeline_boundary.height - y
     };
     Vector2 endPos = {
-        .x = x,
-        .y = timeline_boundary.y + timeline_boundary.height
+        .x = timeline_boundary.x + timeline_boundary.width,
+        .y = timeline_boundary.y + timeline_boundary.height - y
     };
-    DrawLineEx(startPos, endPos, 10, RED);
+    DrawLineEx(startPos, endPos, 10, BLUE);
 
     Vector2 mouse = GetMousePosition();
     if (CheckCollisionPointRec(mouse, timeline_boundary)) {
         if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
-            float t = (mouse.x - timeline_boundary.x)/timeline_boundary.width;
+            float t = (timeline_boundary.height - mouse.y +
+                timeline_boundary.y)/timeline_boundary.height;
             SeekMusicStream(track->music, t*len);
         }
     }
@@ -384,7 +385,7 @@ void tracks_panel(Rectangle panel_boundary)
 
     Color background = ColorFromHSV(0, 0, 0.2);
     Color hoverover = ColorBrightness(background, 0.2);
-    Color selected = ColorBrightness(BLUE, 0.2);
+    Color selected = ColorBrightness(VIOLET, 0.2);
 
     float scroll_bar_width = panel_boundary.width*0.03;
     float item_size = panel_boundary.width*0.2;
