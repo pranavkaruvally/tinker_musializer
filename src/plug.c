@@ -612,7 +612,7 @@ void plug_update(void)
                 float tracks_panel_width = w*0.25;
                 float timeline_height = h*0.20;
                 Rectangle preview_boundary = {
-                    .x = tracks_panel_width,
+                    .x = 0,
                     .y = 0,
                     .width = w - tracks_panel_width,
                     .height = h - timeline_height
@@ -624,7 +624,7 @@ void plug_update(void)
                 EndScissorMode();
 
                 tracks_panel(CLITERAL(Rectangle) {
-                    .x = 0,
+                    .x = preview_boundary.width,
                     .y = 0,
                     .width = tracks_panel_width,
                     .height = preview_boundary.height,
